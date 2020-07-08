@@ -2,9 +2,9 @@ package com.circulation.SIP.dao;
 
 import com.circulation.SIP.messages.*;
 import com.circulation.SIP.types.enumerations.*;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import java.sql.*;
-
 /**
  * Created by giris on 3/3/20.
  */
@@ -12,6 +12,7 @@ public class PulDao {
 
     public static Connection connection = null;
 
+    private static Log logger = LogFactory.getLog(PulDao.class);
     public static Connection getConnection() throws Exception {
         if (connection == null) {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -26,9 +27,10 @@ public class PulDao {
             PreparedStatement preparedStatement = getConnection().prepareStatement("select username from login where username = ? and password = ?");
             preparedStatement.setString(1, userName);
             preparedStatement.setString(2, password);
+            logger.error("username = "+userName);
+            logger.error("password ="+password);
             return preparedStatement.executeQuery().next();
         } catch (Exception e) {
-        	System.out.print(e+"Exception");
             return false;
         }
     }
